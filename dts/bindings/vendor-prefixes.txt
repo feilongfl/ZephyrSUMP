@@ -71,6 +71,7 @@ asmedia	ASMedia Technology Inc.
 asc	All Sensors Corporation
 aspeed	ASPEED Technology Inc.
 asus	AsusTek Computer Inc.
+artery	ARTERY Technology
 atlas	Atlas Scientific LLC
 atmel	Atmel Corporation
 auo	AU Optronics Corporation
