@@ -21,6 +21,8 @@ manifest:
   remotes:
     - name: upstream
       url-base: https://github.com/zephyrproject-rtos
+    - name: feilong
+      url-base: https://github.com/feilongfl
 
   #
   # Please add items below based on alphabetical order
@@ -54,6 +56,12 @@ manifest:
     - name: hal_atmel
       revision: d45adfb6897aba323cac29cdda8070ce4f23f014
       path: modules/hal/atmel
+      groups:
+        - hal
+    - name: hal_artery
+      remote: feilong
+      revision: 9ea7050f24d095f6e5d4b41fb606a4070f01bae1
+      path: modules/hal/artery
       groups:
         - hal
     - name: hal_espressif
