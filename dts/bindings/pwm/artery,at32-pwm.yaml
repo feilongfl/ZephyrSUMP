@@ -1,0 +1,23 @@
+# Copyright (c) 2022 YuLong Yao <feilongphone@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+description: Artery AT32 PWM
+
+compatible: "artery,at32-pwm"
+
+include: [base.yaml, pwm-controller.yaml, pinctrl-device.yaml]
+
+properties:
+  pinctrl-0:
+    required: true
+
+  pinctrl-names:
+    required: true
+
+  "#pwm-cells":
+    const: 3
+
+pwm-cells:
+  - channel
+  - period
+  - flags
