@@ -1,0 +1,12 @@
+# Copyright (c) 2022 YuLong Yao <feilongphone@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+DT_COMPAT_AT_AT32_EXTI := artery,at32-exti
+
+config AT32_EXTI
+	bool "AT32 Extended Interrupts and Events (EXTI) Controller"
+	depends on (SOC_FAMILY_AT32 || SOC_SERIES_AT32F43X)
+	default $(dt_compat_enabled,$(DT_COMPAT_AT_AT32_EXTI))
+	help
+	  Enable the GigaDevice AT32 Extended Interrupts and Events (EXTI)
+	  controller driver.
