@@ -1,0 +1,22 @@
+# Copyright (c) 2022, YuLong Yao <feilongphone@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_FAMILY_AT32
+	bool
+	select HAS_AT32_HAL
+	select BUILD_OUTPUT_HEX
+
+config SOC_FAMILY
+	string
+	default "artery"
+	depends on SOC_FAMILY_AT32
+
+config SOC_FAMILY_AT32_ARM
+	bool
+	select SOC_FAMILY_AT32
+
+if SOC_FAMILY_AT32_ARM
+
+source "soc/arm/artery/*/Kconfig.soc"
+
+endif # SOC_FAMILY_GD32_ARM

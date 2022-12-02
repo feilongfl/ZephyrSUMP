@@ -1,0 +1,14 @@
+# Copyright (c) 2022 YuLong Yao <feilongphone@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_SERIES_AT32F43X
+	bool "Artery Tech. AT32F43X series Cortex-M4F MCU"
+	select ARM
+	select CPU_HAS_FPU
+	select CPU_CORTEX_M4
+	select CPU_CORTEX_M_HAS_SYSTICK
+	select CPU_CORTEX_M_HAS_VTOR
+	select SOC_FAMILY_AT32_ARM
+	select AT32_HAS_AF_PINMUX
+	help
+	  Enable support for Artery AT32F43X MCU series

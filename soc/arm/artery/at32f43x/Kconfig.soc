@@ -1,0 +1,13 @@
+# Copyright (c) 2022 YuLong Yao <feilongphone@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+choice
+	prompt "Artery AT32F43X MCU Selection"
+	depends on SOC_SERIES_AT32F43X
+
+	config SOC_AT32F435
+		bool "at32f435"
+
+	config SOC_AT32F437
+		bool "at32f437"
+endchoice

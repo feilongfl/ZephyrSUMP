@@ -1,0 +1,11 @@
+# Copyright (c) 2022 YuLong Yao <feilongphone@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+if SOC_SERIES_AT32F43X
+
+source "soc/arm/artery/at32f43x/Kconfig.defconfig.at32*"
+
+config SOC_SERIES
+	default "at32f43x"
+
+endif # SOC_SERIES_AT32F43X
