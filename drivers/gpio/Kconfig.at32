@@ -1,0 +1,11 @@
+# Copyright (c) 2022 YuLong Yao <feilongphone@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+DT_COMPAT_ARTERY_AT32_GPIO := artery,at32-gpio
+
+config GPIO_AT32
+	bool "AT32 GPIO driver"
+	depends on (SOC_FAMILY_AT32)
+	default $(dt_compat_enabled,$(DT_COMPAT_ARTERY_AT32_GPIO))
+	help
+	  Enable the AT32 GPIO driver.
