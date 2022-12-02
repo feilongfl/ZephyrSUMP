@@ -1,0 +1,9 @@
+# Copyright (c) 2022 Teslabs Engineering S.L.
+# SPDX-License-Identifier: Apache-2.0
+
+config CLOCK_CONTROL_ARTERY
+	bool "Atery clock control"
+	default y
+	depends on DT_HAS_ARTERY_AT32_CCTL_ENABLED
+	help
+	  Enable driver for Gigadevice Reset Clock Unit (CRM).
