@@ -1,0 +1,10 @@
+# Copyright (c) 2022 YuLong Yao <feilongphone@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+config PWM_AT32
+	bool "Artery AT32 PWM driver"
+	default y
+	depends on DT_HAS_ARTERY_AT32_PWM_ENABLED
+	select USE_AT32_TMR
+	help
+	  Enable the ARTERY AT32 PWM driver.
