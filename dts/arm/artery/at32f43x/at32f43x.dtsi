@@ -1,0 +1,504 @@
+/*
+ * Copyright (c) 2022 YuLong Yao <feilongphone@gmail.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <arm/armv7-m.dtsi>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/pwm/pwm.h>
+#include <zephyr/dt-bindings/i2c/i2c.h>
+#include <zephyr/dt-bindings/clock/at32f43x-clocks.h>
+
+/ {
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu0: cpu@0 {
+			clock-frequency = <8000000>;
+			device_type = "cpu";
+			compatible = "arm,cortex-m4f";
+			reg = <0>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+		};
+	};
+
+	soc {
+		sram0: memory@20000000 {
+			compatible = "mmio-sram";
+		};
+
+		rcu: reset-clock-controller@40023800 {
+			compatible = "artery,at32-crm";
+			reg = <0x40023800 0x400>;
+			status = "okay";
+
+			cctl: clock-controller {
+				compatible = "artery,at32-cctl";
+				#clock-cells = <1>;
+				status = "okay";
+			};
+
+			rctl: reset-controller {
+				compatible = "artery,at32-rctl";
+				#reset-cells = <1>;
+				status = "okay";
+			};
+		};
+
+		syscfg: syscfg@40013800 {
+			compatible = "artery,at32-syscfg";
+			reg = <0x40013800 0x400>;
+			clocks = <&cctl ARTERY_CLOCK_SCFG>;
+		};
+
+		fmc: flash-controller@40023c00 {
+			compatible = "artery,at32-flash-controller";
+			label = "FLASH_CTRL";
+			reg = <0x40023c00 0x400>;
+			peripheral-id = <6>;
+
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			flash0: flash@8000000 {
+				compatible = "soc-nv-flash";
+			};
+		};
+
+		exti: interrupt-controller@40013c00 {
+			compatible = "artery,at32-exti";
+			interrupt-controller;
+			#interrupt-cells = <1>;
+			reg = <0x40013c00 0x400>;
+			num-lines = <23>;
+			interrupts = <6 0>, <7 0>, <8 0>, <9 0>, <10 0>, <23 0>,
+				     <40 0>;
+			interrupt-names = "line0",
+			                  "line1",
+			                  "line2",
+			                  "line3",
+			                  "line4",
+			                  "line5-9",
+			                  "line10-15";
+			status = "okay";
+		};
+
+		pinctrl: pin-controller@40020000 {
+			compatible = "artery,at32-pinctrl-af";
+			reg = <0x40020000 0x2000>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			status = "okay";
+
+			gpioa: gpio@40020000 {
+				compatible = "artery,at32-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x40020000 0x400>;
+				rcu-periph-clock = <0x300000>;
+				clocks = <&cctl ARTERY_CLOCK_GPIOA>;
+				status = "disabled";
+			};
+
+			gpiob: gpio@40020400 {
+				compatible = "artery,at32-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x40020400 0x400>;
+				rcu-periph-clock = <0x300001>;
+				clocks = <&cctl ARTERY_CLOCK_GPIOB>;
+				status = "disabled";
+			};
+
+			gpioc: gpio@40020800 {
+				compatible = "artery,at32-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x40020800 0x400>;
+				rcu-periph-clock = <0x300002>;
+				clocks = <&cctl ARTERY_CLOCK_GPIOC>;
+				status = "disabled";
+			};
+
+			gpiod: gpio@40020C00 {
+				compatible = "artery,at32-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x40020C00 0x400>;
+				rcu-periph-clock = <0x300003>;
+				clocks = <&cctl ARTERY_CLOCK_GPIOD>;
+				status = "disabled";
+			};
+
+			gpioe: gpio@40021000 {
+				compatible = "artery,at32-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x40021000 0x400>;
+				rcu-periph-clock = <0x300004>;
+				clocks = <&cctl ARTERY_CLOCK_GPIOE>;
+				status = "disabled";
+			};
+
+			gpiof: gpio@40021400 {
+				compatible = "artery,at32-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x40021400 0x400>;
+				rcu-periph-clock = <0x300005>;
+				clocks = <&cctl ARTERY_CLOCK_GPIOF>;
+				status = "disabled";
+			};
+
+			gpiog: gpio@40021800 {
+				compatible = "artery,at32-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x40021800 0x400>;
+				rcu-periph-clock = <0x300006>;
+				clocks = <&cctl ARTERY_CLOCK_GPIOG>;
+				status = "disabled";
+			};
+
+			gpioh: gpio@40021C00 {
+				compatible = "artery,at32-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x40021C00 0x400>;
+				rcu-periph-clock = <0x300007>;
+				clocks = <&cctl ARTERY_CLOCK_GPIOH>;
+				status = "disabled";
+			};
+		};
+
+		usart1: usart@40011000 {
+			compatible = "artery,at32-usart";
+			reg = <0x40011000 0x400>;
+			interrupts = <37 0>;
+			rcu-periph-clock = <0x440004>;
+			status = "disabled";
+		};
+
+		usart2: usart@40004400 {
+			compatible = "artery,at32-usart";
+			reg = <0x40004400 0x400>;
+			interrupts = <38 0>;
+			rcu-periph-clock = <0x400011>;
+			status = "disabled";
+		};
+
+		usart3: usart@40004800 {
+			compatible = "artery,at32-usart";
+			reg = <0x40004800 0x400>;
+			interrupts = <39 0>;
+			rcu-periph-clock = <0x400012>;
+			status = "disabled";
+		};
+
+		uart4: usart@40004c00 {
+			compatible = "artery,at32-usart";
+			reg = <0x40004C00 0x400>;
+			interrupts = <52 0>;
+			rcu-periph-clock = <0x400013>;
+			status = "disabled";
+		};
+
+		uart5: usart@40005000 {
+			compatible = "artery,at32-usart";
+			reg = <0x40005000 0x400>;
+			interrupts = <53 0>;
+			rcu-periph-clock = <0x400014>;
+			status = "disabled";
+		};
+
+		usart6: usart@40011400 {
+			compatible = "artery,at32-usart";
+			reg = <0x40011400 0x400>;
+			interrupts = <71 0>;
+			rcu-periph-clock = <0x440005>;
+			status = "disabled";
+		};
+
+		uart7: usart@40007800 {
+			compatible = "artery,at32-usart";
+			reg = <0x40007800 0x400>;
+			interrupts = <82 0>;
+			rcu-periph-clock = <0x40001E>;
+			status = "disabled";
+		};
+
+		uart8: usart@40007c00 {
+			compatible = "artery,at32-usart";
+			reg = <0x40007C00 0x400>;
+			interrupts = <83 0>;
+			rcu-periph-clock = <0x40001F>;
+			status = "disabled";
+		};
+
+		timer1: timer@40010000 {
+			compatible = "artery,at32-timer";
+			reg = <0x40010000 0x400>;
+			interrupts = <24 0>, <25 0>, <26 0>, <27 0>;
+			interrupt-names = "brk", "up", "trgcom", "cc";
+			rcu-periph-clock = <0x440000>;
+			rcu-periph-reset = <0x240000>;
+			clocks = <&cctl ARTERY_CLOCK_TMR1>;
+			channels = <4>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer2: timer@40000000 {
+			compatible = "artery,at32-timer";
+			reg = <0x40000000 0x400>;
+			interrupts = <28 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x400000>;
+			rcu-periph-reset = <0x200000>;
+			clocks = <&cctl ARTERY_CLOCK_TMR2>;
+			channels = <4>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer3: timer@40000400 {
+			compatible = "artery,at32-timer";
+			reg = <0x40000400 0x400>;
+			interrupts = <29 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x400001>;
+			rcu-periph-reset = <0x200001>;
+			clocks = <&cctl ARTERY_CLOCK_TMR3>;
+			channels = <4>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer4: timer@40000800 {
+			compatible = "artery,at32-timer";
+			reg = <0x40000800 0x400>;
+			interrupts = <30 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x400002>;
+			rcu-periph-reset = <0x200002>;
+			clocks = <&cctl ARTERY_CLOCK_TMR4>;
+			channels = <4>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer5: timer@40000c00 {
+			compatible = "artery,at32-timer";
+			reg = <0x40000C00 0x400>;
+			interrupts = <50 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x400003>;
+			rcu-periph-reset = <0x200003>;
+			clocks = <&cctl ARTERY_CLOCK_TMR5>;
+			channels = <4>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer6: timer@40001000 {
+			compatible = "artery,at32-timer";
+			reg = <0x40001000 0x400>;
+			interrupts = <54 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x400004>;
+			rcu-periph-reset = <0x200004>;
+			clocks = <&cctl ARTERY_CLOCK_TMR6>;
+			channels = <0>;
+			status = "disabled";
+		};
+
+		timer7: timer@40001400 {
+			compatible = "artery,at32-timer";
+			reg = <0x40001400 0x400>;
+			interrupts = <55 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x400005>;
+			rcu-periph-reset = <0x200005>;
+			clocks = <&cctl ARTERY_CLOCK_TMR7>;
+			is-advanced;
+			channels = <0>;
+			status = "disabled";
+		};
+
+		timer8: timer@40010400 {
+			compatible = "artery,at32-timer";
+			reg = <0x40010400 0x400>;
+			interrupts = <43 0>, <44 0>, <45 0>, <46 0>;
+			interrupt-names = "brk", "up", "trgcom", "cc";
+			rcu-periph-clock = <0x440001>;
+			rcu-periph-reset = <0x240001>;
+			clocks = <&cctl ARTERY_CLOCK_TMR8>;
+			channels = <4>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer9: timer@40014000 {
+			compatible = "artery,at32-timer";
+			reg = <0x40014000 0x400>;
+			interrupts = <24 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x440010>;
+			rcu-periph-reset = <0x240010>;
+			clocks = <&cctl ARTERY_CLOCK_TMR9>;
+			channels = <2>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer10: timer@40014400 {
+			compatible = "artery,at32-timer";
+			reg = <0x40014400 0x400>;
+			interrupts = <25 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x440011>;
+			rcu-periph-reset = <0x240011>;
+			clocks = <&cctl ARTERY_CLOCK_TMR10>;
+			channels = <1>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer11: timer@40014800 {
+			compatible = "artery,at32-timer";
+			reg = <0x40014800 0x400>;
+			interrupts = <46 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x440012>;
+			rcu-periph-reset = <0x240012>;
+			clocks = <&cctl ARTERY_CLOCK_TMR11>;
+			channels = <1>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer12: timer@40001800 {
+			compatible = "artery,at32-timer";
+			reg = <0x40001800 0x400>;
+			interrupts = <43 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x400006>;
+			rcu-periph-reset = <0x200006>;
+			clocks = <&cctl ARTERY_CLOCK_TMR12>;
+			channels = <2>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer13: timer@40001c00 {
+			compatible = "artery,at32-timer";
+			reg = <0x40001C00 0x400>;
+			interrupts = <44 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x400007>;
+			rcu-periph-reset = <0x200007>;
+			clocks = <&cctl ARTERY_CLOCK_TMR13>;
+			channels = <1>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer14: timer@40002000 {
+			compatible = "artery,at32-timer";
+			reg = <0x40002000 0x400>;
+			interrupts = <45 0>;
+			interrupt-names = "global";
+			rcu-periph-clock = <0x400008>;
+			rcu-periph-reset = <0x200008>;
+			clocks = <&cctl ARTERY_CLOCK_TMR14>;
+			channels = <1>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+
+		timer20: timer@40014c00 {
+			compatible = "artery,at32-timer";
+			reg = <0x40014C00 0x400>;
+			interrupts = <104 0>, <105 0>, <106 0>, <107 0>;
+			interrupt-names = "brk", "up", "trgcom", "cc";
+			rcu-periph-clock = <0x440014>;
+			rcu-periph-reset = <0x240014>;
+			clocks = <&cctl ARTERY_CLOCK_TMR20>;
+			channels = <4>;
+			status = "disabled";
+
+			pwm {
+				compatible = "artery,at32-pwm";
+				status = "disabled";
+				#pwm-cells = <3>;
+			};
+		};
+	};
+};
+
+&nvic {
+	arm,num-irq-priority-bits = <4>;
+};
