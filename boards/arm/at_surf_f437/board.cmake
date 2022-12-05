@@ -1,7 +1,7 @@
 # Copyright (c) 2022, YuLong Yao <feilongphone@gmail.com>
 # SPDX-License-Identifier: Apache-2.0
 
-include(${ZEPHYR_BASE}/boards/common/openocd.board.cmake)
+board_runner_args(pyocd "--target=_at32f437zmt7" "--pack=${ZEPHYR_HAL_ARTERY_MODULE_DIR}/${CONFIG_SOC_SERIES}/support/ArteryTek.AT32F435_437_DFP.2.1.2.pack")
 
-# board_runner_args(gd32isp "--device=AT32F437ZMT6")
-# include(${ZEPHYR_BASE}/boards/common/gd32isp.board.cmake)
+include(${ZEPHYR_BASE}/boards/common/pyocd.board.cmake)
+include(${ZEPHYR_BASE}/boards/common/openocd.board.cmake)
