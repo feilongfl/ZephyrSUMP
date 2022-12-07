@@ -1,0 +1,44 @@
+
+config SAMPLE_BUFFER_SIZE
+	int "SAMPLE_BUFFER_SIZE"
+	default 10240
+	help
+	  Buffer size for storage GPIO sample data
+
+config SAMPLE_RATE
+	int "SAMPLE_RATE"
+	default 6000000 if SOC_FAMILY_AT32_ARM && SUMP_PORT_FAST_DRIVER
+	default 1000
+	help
+	  Buffer size for storage GPIO sample data
+
+config SUMP_VERSION_MAJOR
+	int "SUMP_VERSION_MAJOR"
+	default 1
+	help
+	  Major version of SUMP firmware.
+
+config SUMP_VERSION_MINOR
+	int "SUMP_VERSION_MINOR"
+	default 13
+	help
+	  Minor version of SUMP firmware.
+
+config SUMP_LOG_LEVEL
+	int "SUMP_LOG_LEVEL"
+	default 0
+	help
+	  Log level for sump module
+
+	  0 No debug
+	  1 Error
+	  2 State change
+	  3 Information
+	  4 Verbose
+
+config SUMP_PORT_FAST_DRIVER
+	bool "SUMP_PORT_DRIVER"
+	default y if SOC_FAMILY_AT32_ARM
+	default n
+	help
+	  enable sump fast port driver
